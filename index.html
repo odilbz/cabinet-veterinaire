@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabinet Vétérinaire Dr. Boulemaiz Azzeddine</title>
+    <!-- Simple Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        :root {
+            --color-olive: #2C5530;
+            --color-olive-dark: #1A351D;
+            --color-amber: #D4AF37;
+            --color-amber-hover: #C59B27;
+            --color-cream: #FAF7F2;
+            --color-red-accent: #C0392B;
+        }
+        body {
+            background-color: var(--color-cream);
+            color: #2C3E50;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .bg-olive { background-color: var(--color-olive); }
+        .bg-olive-dark { background-color: var(--color-olive-dark); }
+        .bg-amber { background-color: var(--color-amber); }
+        .text-olive { color: var(--color-olive); }
+        .text-amber { color: var(--color-amber); }
+        .text-red-accent { color: var(--color-red-accent); }
+        .border-amber { border-color: var(--color-amber); }
+        
+        /* Smooth fade-in animation for views */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade {
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Toast animation */
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(-15px) scale(0.95); }
+            10% { opacity: 1; transform: translateY(0) scale(1); }
+            90% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-15px) scale(0.95); }
+        }
+        .toast {
+            animation: fadeInOut 4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Glassmorphism subtle effects */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+        }
+        .glass-nav:hover {
+            background: rgba(212, 175, 55, 0.9);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-[#2C5530] to-[#1A351D] text-white shadow-xl sticky top-0 z-50 border-b-4 border-[#D4AF37]">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-4">
+                <div class="w-13 h-13 bg-[#D4AF37] text-[#1A351D] flex items-center justify-center rounded-full text-3xl font-extrabold shadow-lg transform transition hover:rotate-12">
+                    🐾
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-2xl font-extrabold tracking-wide drop-shadow-md" id="lbl_clinic_title">Cabinet Vétérinaire Dr. Boulemaiz Azzeddine</h1>
+                    <span class="text-xs font-extrabold px-3 py-1 rounded-md bg-white text-[#C0392B] shadow-md inline-block mt-1.5 self-start rtl:self-end" id="lbl_doctor_name">Dr. Boulemaiz Azzeddine</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="flex flex-wrap gap-2.5 items-center">
+                <button onclick="switchTab('pos')" id="nav_pos" class="nav-btn px-4.5 py-2.5 rounded-xl font-bold text-sm transition shadow-sm bg-white/15 hover:bg-[#D4AF37] hover:text-green-950 hover:-translate-y-0.5 active-nav">Point de Vente</button>
+                <button onclick="switchTab('stock')" id="nav_stock" class="nav-btn px-4.5 py-2.5 rounded-xl font-bold text-sm transition shadow-sm bg-white/15 hover:bg-[#D4AF37] hover:text-green-950 hover:-translate-y-0.5">Stock & Médicaments</button>
+                <button onclick="switchTab('entry')" id="nav_entry" class="nav-btn px-4.5 py-2.5 rounded-xl font-bold text-sm transition shadow-sm bg-white/15 hover:bg-[#D4AF37] hover:text-green-950 hover:-translate-y-0.5">Entrée en Stock</button>
+                <button onclick="switchTab('reports')" id="nav_reports" class="nav-btn px-4.5 py-2.5 rounded-xl font-bold text-sm transition shadow-sm bg-white/15 hover:bg-[#D4AF37] hover:text-green-950 hover:-translate-y-0.5">Rapports & Bénéfices</button>
+                <button onclick="switchTab('settings')" id="nav_settings" class="nav-btn px-4.5 py-2.5 rounded-xl font-bold text-sm transition shadow-sm bg-white/15 hover:bg-[#D4AF37] hover:text-green-950 hover:-translate-y-0.5">Paramètres</button>
+                
+                <!-- Language Switcher -->
+                <div class="flex gap-1 bg-black/30 p-1.5 rounded-xl ml-2 rtl:ml-0 rtl:mr-2 shadow-inner">
+                    <button onclick="setLanguage('fr')" id="btn_lang_fr" class="lang-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-white transition bg-[#D4AF37] text-green-950 shadow-sm">FR</button>
+                    <button onclick="setLanguage('ar')" id="btn_lang_ar" class="lang-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-white transition hover:bg-[#D4AF37] hover:text-green-950">AR</button>
+                    <button onclick="setLanguage('en')" id="btn_lang_en" class="lang-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-white transition hover:bg-[#D4AF37] hover:text-green-950">EN</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-6 py-10">
+        
+        <!-- Toast Notification Container -->
+        <div id="toast_container" class="fixed top-28 right-8 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+        <!-- 1. VIEW: POINT DE VENTE (POS / CAISSE) -->
+        <div id="view_pos" class="tab-view animate-fade">
+            <!-- Enregistrement des Ventes (Caisse) -->
+            <section class="bg-white border border-gray-200 rounded-2xl p-8 shadow-xl mb-10 transition duration-300 hover:shadow-2xl">
+                <div class="border-b border-gray-100 pb-5 mb-8">
+                    <h2 class="text-2xl font-extrabold text-[#2C5530] flex items-center gap-3" id="lbl_caisse_title">
+                        <span class="text-3xl">🛒</span> Enregistrement des Ventes (Caisse)
+                    </h2>
+                </div>
+
+                <form id="form_sale" onsubmit="handleSaleSubmit(event)" class="grid grid-cols-1 md:grid-cols-3 gap-8 items-end">
+                    <div>
+                        <label for="pos_select_med" class="block text-base font-bold text-gray-800 mb-2.5" id="lbl_select_med">Sélectionner un médicament</label>
+                        <select id="pos_select_med" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 text-gray-800 font-medium focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition" required>
+                            <option value="">-- Sélectionner un médicament --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="pos_quantity" class="block text-base font-bold text-gray-800 mb-2.5" id="lbl_pos_qty">Quantité</label>
+                        <input type="number" id="pos_quantity" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 text-gray-800 font-bold focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition" min="1" value="1" required>
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full h-14 bg-gradient-to-r from-[#2C5530] to-[#1A351D] hover:from-[#3D7342] hover:to-[#2C5530] text-white font-extrabold text-lg rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition duration-200 flex items-center justify-center gap-3 cursor-pointer">
+                            <span class="text-2xl">🧾</span> <span id="lbl_btn_submit_sale">Enregistrer la vente</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Recent Sales Table -->
+            <section class="bg-white border border-gray-200 rounded-2xl p-8 shadow-xl transition duration-300 hover:shadow-2xl">
+                <div class="border-b border-gray-100 pb-5 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <h2 class="text-2xl font-extrabold text-[#2C5530] flex items-center gap-3" id="lbl_recent_sales">
+                        <span class="text-3xl">📋</span> Ventes Récentes
+                    </h2>
+                    <button onclick="resetDailySales()" class="w-full md:w-auto bg-rose-600 hover:bg-rose-700 text-white font-extrabold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition duration-200 flex items-center justify-center gap-2.5 text-sm shrink-0 cursor-pointer">
+                        <span class="text-lg">🧹</span> <span id="lbl_btn_reset_daily">Réinitialiser le jour</span>
+                    </button>
+                </div>
+                <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm">
+                    <table class="w-full text-left border-collapse" id="table_pos_recent">
+                        <thead>
+                            <tr class="bg-[#F4EFEA] border-b border-gray-200 text-[#2C5530] text-sm font-extrabold uppercase tracking-wider">
+                                <th class="p-5" id="th_pos_med">Nom du médicament</th>
+                                <th class="p-5" id="th_pos_qty">Quantité</th>
+                                <th class="p-5" id="th_pos_price">Prix unitaire</th>
+                                <th class="p-5" id="th_pos_total">Total</th>
+                                <th class="p-5" id="th_pos_profit">Bénéfice</th>
+                                <th class="p-5" id="th_pos_date">Date / Heure</th>
+                                <th class="p-5" id="th_pos_act">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody_recent_sales" class="divide-y divide-gray-100 text-base">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- 2. VIEW: STOCK & MEDICAMENTS -->
+        <div id="view_stock" class="tab-view hidden animate-fade">
+            <section class="bg-white border border-gray-200 rounded-2xl p-8 shadow-xl transition duration-300 hover:shadow-2xl">
+                <div class="border-b border-gray-100 pb-5 mb-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <h2 class="text-2xl font-extrabold text-[#2C5530] flex items-center gap-3" id="lbl_stock_title">
+                        <span class="text-3xl">📦</span> Stock & Médicaments
+                    </h2>
+                    <div class="flex flex-col sm:flex-row gap-4 items-center w-full md:w-auto">
+                        <input type="text" id="stock_search" oninput="filterStock()" placeholder="Rechercher un médicament..." class="w-full sm:w-72 p-3.5 border-2 border-gray-200 rounded-xl bg-gray-50 text-base font-medium focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition">
+                        <button onclick="openMedicineModal()" class="w-full sm:w-auto bg-[#D4AF37] hover:bg-[#C59B27] text-green-950 font-extrabold px-7 py-3.5 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition duration-200 flex items-center justify-center gap-3 text-base shrink-0 cursor-pointer">
+                            <span class="text-xl">➕</span> <span id="lbl_btn_add_med">Ajouter un médicament</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm">
+                    <table class="w-full text-left border-collapse" id="table_stock">
+                        <thead>
+                            <tr class="bg-[#F4EFEA] border-b border-gray-200 text-[#2C5530] text-sm font-extrabold uppercase tracking-wider">
+                                <th class="p-5" id="th_stock_med">Nom du médicament</th>
+                                <th class="p-5" id="th_stock_cat">Catégorie</th>
+                                <th class="p-5" id="th_stock_buy">Prix d'achat</th>
+                                <th class="p-5" id="th_stock_sell">Prix de vente</th>
+                                <th class="p-5" id="th_stock_qty">Quantité en stock</th>
+                                <th class="p-5" id="th_stock_act">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody_stock" class="divide-y divide-gray-100 text-base">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- 3. VIEW: ENTREE EN STOCK -->
+        <div id="view_entry" class="tab-view hidden animate-fade">
+            <section class="bg-white border border-gray-200 rounded-2xl p-10 shadow-xl max-w-3xl mx-auto transition duration-300 hover:shadow-2xl">
+                <div class="border-b border-gray-100 pb-5 mb-8">
+                    <h2 class="text-2xl font-extrabold text-[#2C5530] flex items-center gap-3" id="lbl_entry_title">
+                        <span class="text-3xl">📥</span> Enregistrement de nouveaux lots
+                    </h2>
+                </div>
+
+                <form id="form_stock_entry" onsubmit="handleStockEntrySubmit(event)" class="space-y-8">
+                    <div>
+                        <label for="entry_select_med" class="block text-base font-bold text-gray-800 mb-2.5" id="lbl_entry_select">Choisir un médicament existant ou créer un nouveau</label>
+                        <select id="entry_select_med" onchange="onEntryMedChange(this)" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-medium focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition">
+                            <option value="">-- Créer un nouveau médicament / إضافة دواء جديد --</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="entry_new_name" class="block text-base font-bold text-gray-800 mb-2.5" id="lbl_entry_new_name">Nom du médicament (Si nouveau / إذا كان جديداً)</label>
+                        <input type="text" id="entry_new_name" placeholder="Nom du médicament..." class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-medium focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <label for="entry_buy_price" class="block text-base font-bold text-gray-800 mb-2.5" id="lbl_entry_buy">Prix d'achat</label>
+                            <input type="number" step="0.01" id="entry_buy_price" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-bold focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition" required>
+                        </div>
+                        <div>
+                            <label for="entry_sell_price" class="block text-base font-bold text-gray-800 mb-2.5" id="lbl_entry_sell">Prix de vente</label>
+                            <input type="number" step="0.01" id="entry_sell_price" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-bold focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="entry_add_qty" class="block text-base font-bold text-gray-800 mb-2.5" id="lbl_entry_add_qty">Quantité ajoutée</label>
+                        <input type="number" id="entry_add_qty" min="1" value="10" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-bold focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition" required>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="w-full h-15 bg-gradient-to-r from-[#2C5530] to-[#1A351D] hover:from-[#3D7342] hover:to-[#2C5530] text-white font-extrabold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition duration-200 flex items-center justify-center gap-3 text-xl cursor-pointer">
+                            <span class="text-2xl">✅</span> <span id="lbl_btn_entry_confirm">Valider l'entrée</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </div>
+
+        <!-- 4. VIEW: RAPPORTS & BENEFICES (NOW INCLUDES THE EXCLUSIVE STATS CARDS) -->
+        <div id="view_reports" class="tab-view hidden animate-fade">
+            <!-- Exclusive Top Statistics Cards for Reports View -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 shadow-xl border-b-8 border-[#D4AF37] flex items-center justify-between transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl">
+                    <div>
+                        <h3 class="text-xs font-extrabold text-gray-500 uppercase tracking-widest mb-2" id="lbl_stat_today">Bénéfice Net Aujourd'hui</h3>
+                        <div class="text-3xl font-black text-[#2C5530]" id="val_stat_today">0.00 DZD</div>
+                    </div>
+                    <div class="w-18 h-18 bg-[#D4AF37]/20 text-[#D4AF37] rounded-full flex items-center justify-center text-4xl shadow-inner">💰</div>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 shadow-xl border-b-8 border-[#D4AF37] flex items-center justify-between transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl">
+                    <div>
+                        <h3 class="text-xs font-extrabold text-gray-500 uppercase tracking-widest mb-2" id="lbl_stat_week">Bénéfice Net Cette Semaine</h3>
+                        <div class="text-3xl font-black text-[#2C5530]" id="val_stat_week">0.00 DZD</div>
+                    </div>
+                    <div class="w-18 h-18 bg-[#D4AF37]/20 text-[#D4AF37] rounded-full flex items-center justify-center text-4xl shadow-inner">📈</div>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 shadow-xl border-b-8 border-[#D4AF37] flex items-center justify-between transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl">
+                    <div>
+                        <h3 class="text-xs font-extrabold text-gray-500 uppercase tracking-widest mb-2" id="lbl_stat_month">Bénéfice Net Ce Mois</h3>
+                        <div class="text-3xl font-black text-[#2C5530]" id="val_stat_month">0.00 DZD</div>
+                    </div>
+                    <div class="w-18 h-18 bg-[#D4AF37]/20 text-[#D4AF37] rounded-full flex items-center justify-center text-4xl shadow-inner">🏆</div>
+                </div>
+            </section>
+
+            <!-- Reports Content -->
+            <section class="bg-white border border-gray-200 rounded-2xl p-8 shadow-xl transition duration-300 hover:shadow-2xl">
+                <div class="border-b border-gray-100 pb-5 mb-8">
+                    <h2 class="text-2xl font-extrabold text-[#2C5530] flex items-center gap-3" id="lbl_reports_title">
+                        <span class="text-3xl">📊</span> Rapports & Bénéfices
+                    </h2>
+                    <p class="text-base text-gray-500 mt-1.5 font-medium" id="lbl_reports_subtitle">Analyse financière et historique des ventes (regroupées par date)</p>
+                </div>
+
+                <div id="reports_accordion_container" class="space-y-8">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- 5. VIEW: PARAMETRES -->
+        <div id="view_settings" class="tab-view hidden animate-fade">
+            <section class="bg-white border border-gray-200 rounded-2xl p-10 shadow-xl max-w-3xl mx-auto transition duration-300 hover:shadow-2xl">
+                <div class="border-b border-gray-100 pb-5 mb-8">
+                    <h2 class="text-2xl font-extrabold text-[#2C5530] flex items-center gap-3" id="lbl_settings_title">
+                        <span class="text-3xl">⚙️</span> Configuration de la clinique
+                    </h2>
+                </div>
+
+                <form id="form_settings" onsubmit="handleSettingsSubmit(event)" class="space-y-8">
+                    <div>
+                        <label for="set_clinic_name" class="block text-base font-bold text-gray-800 mb-2.5">Nom du Cabinet / اسم العيادة</label>
+                        <input type="text" id="set_clinic_name" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-bold focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition" required>
+                    </div>
+                    <div>
+                        <label for="set_doctor_name" class="block text-base font-bold text-gray-800 mb-2.5" id="lbl_set_dr">Nom du Médecin / اسم الطبيب</label>
+                        <input type="text" id="set_doctor_name" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-bold focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition" required>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <label for="set_currency" class="block text-base font-bold text-gray-800 mb-2.5">Monnaie / العملة</label>
+                            <input type="text" id="set_currency" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-bold focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition" required>
+                        </div>
+                        <div>
+                            <label for="set_lang" class="block text-base font-bold text-gray-800 mb-2.5">Langue par défaut / اللغة الافتراضية</label>
+                            <select id="set_lang" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-bold focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition">
+                                <option value="fr">Français (FR)</option>
+                                <option value="ar">العربية (AR)</option>
+                                <option value="en">English (EN)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full h-15 bg-gradient-to-r from-[#2C5530] to-[#1A351D] hover:from-[#3D7342] hover:to-[#2C5530] text-white font-extrabold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition duration-200 flex items-center justify-center gap-3 text-xl cursor-pointer">
+                            <span class="text-2xl">💾</span> <span id="lbl_btn_set_save">Enregistrer les paramètres</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Modal: Add / Edit Medicine -->
+    <div id="modal_medicine" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-white rounded-3xl border-t-8 border-[#2C5530] max-w-xl w-full p-10 shadow-2xl relative animate-fade">
+            <button onclick="closeMedicineModal()" class="absolute top-8 right-8 rtl:right-auto rtl:left-8 text-gray-400 hover:text-[#C0392B] text-3xl font-bold transition">&times;</button>
+            
+            <h2 class="text-2xl font-extrabold text-[#2C5530] flex items-center gap-3 mb-8" id="lbl_modal_title">
+                <span class="text-3xl">💊</span> Ajouter / Modifier un médicament
+            </h2>
+
+            <form id="form_medicine_modal" onsubmit="handleMedicineModalSubmit(event)" class="space-y-6">
+                <input type="hidden" id="modal_med_id">
+                <div>
+                    <label for="modal_med_name" class="block text-base font-bold text-gray-800 mb-2" id="lbl_modal_name">Nom du médicament</label>
+                    <input type="text" id="modal_med_name" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-medium focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition" required>
+                </div>
+                <div>
+                    <label for="modal_med_cat" class="block text-base font-bold text-gray-800 mb-2">Catégorie / صنف</label>
+                    <input type="text" id="modal_med_cat" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-medium focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition" value="Général">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="modal_med_buy" class="block text-base font-bold text-gray-800 mb-2" id="lbl_modal_buy">Prix d'achat</label>
+                        <input type="number" step="0.01" id="modal_med_buy" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-bold focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition" required>
+                    </div>
+                    <div>
+                        <label for="modal_med_sell" class="block text-base font-bold text-gray-800 mb-2" id="lbl_modal_sell">Prix de vente</label>
+                        <input type="number" step="0.01" id="modal_med_sell" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-bold focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition" required>
+                    </div>
+                </div>
+                <div>
+                    <label for="modal_med_qty" class="block text-base font-bold text-gray-800 mb-2" id="lbl_modal_qty">Quantité en stock</label>
+                    <input type="number" id="modal_med_qty" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 font-bold focus:bg-white focus:outline-none focus:border-[#2C5530] focus:ring-4 focus:ring-[#2C5530]/10 transition" required>
+                </div>
+                <div class="flex justify-end gap-4 pt-6 border-t border-gray-100">
+                    <button type="button" onclick="closeMedicineModal()" class="px-7 py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-extrabold rounded-xl transition cursor-pointer" id="lbl_btn_modal_cancel">Annuler</button>
+                    <button type="submit" class="px-7 py-3.5 bg-gradient-to-r from-[#2C5530] to-[#1A351D] hover:from-[#3D7342] hover:to-[#2C5530] text-white font-extrabold rounded-xl shadow-lg hover:shadow-xl transition cursor-pointer" id="lbl_btn_modal_save">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-[#1A351D] to-[#0D1A0E] text-gray-300 border-t-4 border-[#D4AF37] py-10 mt-auto text-base shadow-2xl">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+            <div class="font-medium">&copy; 2026 Cabinet Vétérinaire Dr. Boulemaiz Azzeddine. Tous droits réservés.</div>
+            <div class="text-[#D4AF37] font-black tracking-widest text-lg" id="lbl_footer_dev">Développé par Odil</div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // TRANSLATIONS DICTIONARY
+        const t = {
+            fr: {
+                clinic_title: "Cabinet Vétérinaire Dr. Boulemaiz Azzeddine",
+                nav_pos: "Point de Vente",
+                nav_stock: "Stock & Médicaments",
+                nav_entry: "Entrée en Stock",
+                nav_reports: "Rapports & Bénéfices",
+                nav_settings: "Paramètres",
+                stat_today: "Bénéfice Net Aujourd'hui",
+                stat_week: "Bénéfice Net Cette Semaine",
+                stat_month: "Bénéfice Net Ce Mois",
+                caisse_title: "Enregistrement des Ventes (Caisse)",
+                select_med: "Sélectionner un médicament",
+                pos_qty: "Quantité",
+                btn_submit_sale: "Enregistrer la vente",
+                recent_sales: "Ventes Récentes",
+                th_med: "Nom du médicament",
+                th_qty: "Quantité",
+                th_price: "Prix unitaire",
+                th_total: "Total",
+                th_profit: "Bénéfice",
+                th_date: "Date / Heure",
+                th_cat: "Catégorie",
+                th_buy: "Prix d'achat",
+                th_sell: "Prix de vente",
+                th_act: "Actions",
+                btn_reset_daily: "Réinitialiser le jour",
+                btn_delete: "Supprimer",
+                confirm_delete_sale: "Annuler cette vente et remettre la quantité en stock ?",
+                confirm_reset_daily: "Réinitialiser toutes les ventes d'aujourd'hui ? Les quantités seront remises en stock.",
+                toast_sale_deleted: "Vente annulée, quantité remise en stock!",
+                toast_daily_reset: "Ventes du jour réinitialisées avec succès!",
+                stock_title: "Stock & Médicaments",
+                btn_add_med: "Ajouter un médicament",
+                search_place: "Rechercher un médicament...",
+                btn_edit: "Modifier",
+                entry_title: "Enregistrement de nouveaux lots",
+                entry_select: "Choisir un médicament existant ou créer un nouveau",
+                entry_new_name: "Nom du médicament (Si nouveau)",
+                entry_buy: "Prix d'achat",
+                entry_sell: "Prix de vente",
+                entry_add_qty: "Quantité ajoutée",
+                btn_entry_confirm: "Valider l'entrée",
+                reports_title: "Rapports & Bénéfices",
+                reports_sub: "Analyse financière et historique des ventes (regroupées par date)",
+                settings_title: "Configuration de la clinique",
+                set_dr: "Nom du Médecin",
+                btn_set_save: "Enregistrer les paramètres",
+                modal_title: "Ajouter / Modifier un médicament",
+                modal_name: "Nom du médicament",
+                modal_buy: "Prix d'achat",
+                modal_sell: "Prix de vente",
+                modal_qty: "Quantité en stock",
+                btn_cancel: "Annuler",
+                btn_save: "Enregistrer",
+                no_records: "Aucun enregistrement trouvé.",
+                developed_by: "Développé par Odil",
+                toast_sale_ok: "Vente enregistrée avec succès!",
+                toast_no_stock: "Stock insuffisant pour cet article!",
+                toast_med_ok: "Médicament enregistré avec succès!",
+                toast_entry_ok: "Stock mis à jour avec succès!",
+                toast_set_ok: "Paramètres enregistrés avec succès!"
+            },
+            ar: {
+                clinic_title: "العيادة البيطرية د. بولميز عزالدين",
+                nav_pos: "نقطة البيع",
+                nav_stock: "المخزون والأدوية",
+                nav_entry: "إدخال المخزون",
+                nav_reports: "التقارير والأرباح",
+                nav_settings: "الإعدادات",
+                stat_today: "صافي الربح اليوم",
+                stat_week: "صافي الربح هذا الأسبوع",
+                stat_month: "صافي الربح هذا الشهر",
+                caisse_title: "تسجيل المبيعات (نقطة البيع)",
+                select_med: "اختر الدواء",
+                pos_qty: "الكمية",
+                btn_submit_sale: "تأكيد البيع",
+                recent_sales: "المبيعات الأخيرة",
+                th_med: "اسم الدواء",
+                th_qty: "الكمية",
+                th_price: "سعر الوحدة",
+                th_total: "المجموع",
+                th_profit: "الربح",
+                th_date: "التاريخ / الوقت",
+                th_cat: "الصنف",
+                th_buy: "سعر الشراء",
+                th_sell: "سعر البيع",
+                th_act: "إجراءات",
+                btn_reset_daily: "تصفير اليوم",
+                btn_delete: "حذف",
+                confirm_delete_sale: "هل تريد إلغاء عملية البيع هذه وإرجاع الكمية إلى المخزون؟",
+                confirm_reset_daily: "هل تريد تصفير جميع مبيعات اليوم؟ سيتم إرجاع الكميات إلى المخزون.",
+                toast_sale_deleted: "تم إلغاء البيع وإرجاع الكمية إلى المخزون!",
+                toast_daily_reset: "تم تصفير مبيعات اليوم بنجاح!",
+                stock_title: "المخزون والأدوية",
+                btn_add_med: "إضافة دواء جديد",
+                search_place: "ابحث عن دواء...",
+                btn_edit: "تعديل",
+                entry_title: "تسجيل استلام دفعات جديدة",
+                entry_select: "اختر دواء موجود أو أدخل تفاصيل دواء جديد",
+                entry_new_name: "اسم الدواء (إذا كان جديداً)",
+                entry_buy: "سعر الشراء",
+                entry_sell: "سعر البيع",
+                entry_add_qty: "الكمية المضافة",
+                btn_entry_confirm: "تأكيد إدخال المخزون",
+                reports_title: "التقارير والأرباح",
+                reports_sub: "التحليل المالي وسجل الأرباح (مجمعة حسب التاريخ)",
+                settings_title: "إعدادات العيادة",
+                set_dr: "اسم الطبيب",
+                btn_set_save: "حفظ الإعدادات",
+                modal_title: "إضافة / تعديل دواء",
+                modal_name: "اسم الدواء",
+                modal_buy: "سعر الشراء",
+                modal_sell: "سعر البيع",
+                modal_qty: "الكمية الحالية",
+                btn_cancel: "إلغاء",
+                btn_save: "حفظ",
+                no_records: "لا توجد بيانات مسجلة.",
+                developed_by: "تم التطوير بواسطة Odil",
+                toast_sale_ok: "تم تسجيل عملية البيع بنجاح!",
+                toast_no_stock: "الكمية في المخزون غير كافية!",
+                toast_med_ok: "تم حفظ بيانات الدواء بنجاح!",
+                toast_entry_ok: "تم تحديث المخزون بنجاح!",
+                toast_set_ok: "تم حفظ الإعدادات بنجاح!"
+            },
+            en: {
+                clinic_title: "Veterinary Clinic Dr. Boulemaiz Azzeddine",
+                nav_pos: "Point of Sale",
+                nav_stock: "Stock & Inventory",
+                nav_entry: "Stock Entry",
+                nav_reports: "Reports & Profits",
+                nav_settings: "Settings",
+                stat_today: "Net Profit Today",
+                stat_week: "Net Profit This Week",
+                stat_month: "Net Profit This Month",
+                caisse_title: "Sales Recording (POS)",
+                select_med: "Select Medicine",
+                pos_qty: "Quantity",
+                btn_submit_sale: "Record Sale",
+                recent_sales: "Recent Sales",
+                th_med: "Medicine Name",
+                th_qty: "Quantity",
+                th_price: "Unit Price",
+                th_total: "Total",
+                th_profit: "Profit",
+                th_date: "Date / Time",
+                th_cat: "Category",
+                th_buy: "Buy Price",
+                th_sell: "Sell Price",
+                th_act: "Actions",
+                btn_reset_daily: "Reset Day",
+                btn_delete: "Delete",
+                confirm_delete_sale: "Cancel this sale and return the quantity to stock?",
+                confirm_reset_daily: "Reset all of today's sales? Quantities will be returned to stock.",
+                toast_sale_deleted: "Sale cancelled, quantity returned to stock!",
+                toast_daily_reset: "Today's sales reset successfully!",
+                stock_title: "Stock & Inventory",
+                btn_add_med: "Add New Medicine",
+                search_place: "Search medicine...",
+                btn_edit: "Edit",
+                entry_title: "Batch Inventory Arrival",
+                entry_select: "Select existing medicine or add new",
+                entry_new_name: "Medicine Name (If new)",
+                entry_buy: "Buy Price",
+                entry_sell: "Sell Price",
+                entry_add_qty: "Added Quantity",
+                btn_entry_confirm: "Confirm Stock Entry",
+                reports_title: "Reports & Profits",
+                reports_sub: "Financial analysis & sales history (grouped by date)",
+                settings_title: "Clinic Configuration",
+                set_dr: "Doctor Name",
+                btn_set_save: "Save Settings",
+                modal_title: "Add / Edit Medicine",
+                modal_name: "Medicine Name",
+                modal_buy: "Buy Price",
+                modal_sell: "Sell Price",
+                modal_qty: "Current Quantity",
+                btn_cancel: "Cancel",
+                btn_save: "Save",
+                no_records: "No records found.",
+                developed_by: "Developed by Odil",
+                toast_sale_ok: "Sale recorded successfully!",
+                toast_no_stock: "Insufficient stock for this item!",
+                toast_med_ok: "Medicine saved successfully!",
+                toast_entry_ok: "Stock updated successfully!",
+                toast_set_ok: "Settings saved successfully!"
+            }
+        };
+
+        // GLOBAL STATE (WITH INITIAL SEED)
+        let currentLang = localStorage.getItem('vet_lang') || 'fr';
+        let settings = JSON.parse(localStorage.getItem('vet_settings')) || {
+            clinic_name: "Cabinet Vétérinaire Dr. Boulemaiz Azzeddine",
+            doctor_name: "Dr. Boulemaiz Azzeddine",
+            currency: "DZD",
+            default_lang: "fr"
+        };
+
+        let medicines = JSON.parse(localStorage.getItem('vet_medicines')) || [
+            { id: 1, name: "Amoxicilline 500mg Vet", category: "Antibiotique", buy_price: 450, sell_price: 700, quantity: 45 },
+            { id: 2, name: "Dectomax Injectable 50ml", category: "Antiparasitaire", buy_price: 3200, sell_price: 4500, quantity: 12 },
+            { id: 3, name: "Vaccin Biocan DHPPi", category: "Vaccin", buy_price: 1200, sell_price: 2200, quantity: 25 },
+            { id: 4, name: "Ivomec 1% 50ml", category: "Antiparasitaire", buy_price: 2500, sell_price: 3800, quantity: 18 },
+            { id: 5, name: "Caniverm Comprimés (10 tab)", category: "Vermifuge", buy_price: 600, sell_price: 1100, quantity: 30 },
+            { id: 6, name: "Alamycin LA 300 100ml", category: "Antibiotique", buy_price: 1800, sell_price: 2700, quantity: 15 },
+            { id: 7, name: "Flamex Anti-inflammatoire", category: "AINS", buy_price: 900, sell_price: 1500, quantity: 20 }
+        ];
+
+        let sales = JSON.parse(localStorage.getItem('vet_sales')) || [
+            { id: 1, medicine_id: 1, medicine_name: "Amoxicilline 500mg Vet", quantity: 2, buy_price: 450, sell_price: 700, total_price: 1400, profit: 500, date: new Date().toISOString() }
+        ];
+
+        // SAVE STATE HELPER
+        function saveState() {
+            localStorage.setItem('vet_medicines', JSON.stringify(medicines));
+            localStorage.setItem('vet_sales', JSON.stringify(sales));
+            localStorage.setItem('vet_settings', JSON.stringify(settings));
+        }
+
+        // TOAST NOTIFICATION HELPER
+        function showToast(message, isError = false) {
+            const container = document.getElementById('toast_container');
+            const toast = document.createElement('div');
+            toast.className = `toast flex items-center gap-3.5 px-7 py-4 rounded-2xl shadow-2xl text-white font-extrabold text-base ${isError ? 'bg-rose-600' : 'bg-gradient-to-r from-[#2C5530] to-[#1A351D] border border-[#D4AF37] '}`;
+            toast.innerHTML = `<span class="text-2xl">${isError ? '⚠️' : '✅'}</span><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        // TAB SWITCHING
+        function switchTab(viewId) {
+            document.querySelectorAll('.tab-view').forEach(view => view.classList.add('hidden'));
+            document.getElementById(`view_${viewId}`).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = "nav-btn px-4.5 py-2.5 rounded-xl font-bold text-sm transition shadow-sm bg-white/15 hover:bg-[#D4AF37] hover:text-green-950 hover:-translate-y-0.5";
+            });
+            const activeBtn = document.getElementById(`nav_${viewId}`);
+            if (activeBtn) {
+                activeBtn.className = "nav-btn px-4.5 py-2.5 rounded-xl font-extrabold text-sm transition shadow-md bg-[#D4AF37] text-green-950 -translate-y-0.5";
+            }
+            renderAll();
+        }
+
+        // LANGUAGE MANAGEMENT & TRANSLATION RENDERER
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('vet_lang', lang);
+
+            // Set HTML direction
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+            // Update language button highlights
+            ['fr', 'ar', 'en'].forEach(l => {
+                const btn = document.getElementById(`btn_lang_${l}`);
+                if (l === lang) {
+                    btn.className = "lang-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-white transition bg-[#D4AF37] text-green-950 shadow-sm";
+                } else {
+                    btn.className = "lang-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-white transition hover:bg-[#D4AF37] hover:text-green-950";
+                }
+            });
+
+            // Update Text Elements
+            const tr = t[lang];
+            document.getElementById('lbl_clinic_title').textContent = settings.clinic_name;
+            document.getElementById('lbl_doctor_name').textContent = settings.doctor_name;
+
+            document.getElementById('nav_pos').textContent = tr.nav_pos;
+            document.getElementById('nav_stock').textContent = tr.nav_stock;
+            document.getElementById('nav_entry').textContent = tr.nav_entry;
+            document.getElementById('nav_reports').textContent = tr.nav_reports;
+            document.getElementById('nav_settings').textContent = tr.nav_settings;
+
+            document.getElementById('lbl_stat_today').textContent = tr.stat_today;
+            document.getElementById('lbl_stat_week').textContent = tr.stat_week;
+            document.getElementById('lbl_stat_month').textContent = tr.stat_month;
+
+            document.getElementById('lbl_caisse_title').innerHTML = `<span class="text-3xl">🛒</span> ${tr.caisse_title}`;
+            document.getElementById('lbl_select_med').textContent = tr.select_med;
+            document.getElementById('lbl_pos_qty').textContent = tr.pos_qty;
+            document.getElementById('lbl_btn_submit_sale').textContent = tr.btn_submit_sale;
+            document.getElementById('lbl_recent_sales').innerHTML = `<span class="text-3xl">📋</span> ${tr.recent_sales}`;
+
+            document.getElementById('th_pos_med').textContent = tr.th_med;
+            document.getElementById('th_pos_qty').textContent = tr.th_qty;
+            document.getElementById('th_pos_price').textContent = tr.th_price;
+            document.getElementById('th_pos_total').textContent = tr.th_total;
+            document.getElementById('th_pos_profit').textContent = tr.th_profit;
+            document.getElementById('th_pos_date').textContent = tr.th_date;
+            document.getElementById('th_pos_act').textContent = tr.th_act;
+            document.getElementById('lbl_btn_reset_daily').textContent = tr.btn_reset_daily;
+
+            document.getElementById('lbl_stock_title').innerHTML = `<span class="text-3xl">📦</span> ${tr.stock_title}`;
+            document.getElementById('lbl_btn_add_med').textContent = tr.btn_add_med;
+            document.getElementById('stock_search').placeholder = tr.search_place;
+            
+            document.getElementById('th_stock_med').textContent = tr.th_med;
+            document.getElementById('th_stock_cat').textContent = tr.th_cat;
+            document.getElementById('th_stock_buy').textContent = tr.th_buy;
+            document.getElementById('th_stock_sell').textContent = tr.th_sell;
+            document.getElementById('th_stock_qty').textContent = tr.modal_qty;
+            document.getElementById('th_stock_act').textContent = tr.th_act;
+
+            document.getElementById('lbl_entry_title').innerHTML = `<span class="text-3xl">📥</span> ${tr.entry_title}`;
+            document.getElementById('lbl_entry_select').textContent = tr.entry_select;
+            document.getElementById('lbl_entry_new_name').textContent = tr.entry_new_name;
+            document.getElementById('lbl_entry_buy').textContent = tr.entry_buy;
+            document.getElementById('lbl_entry_sell').textContent = tr.entry_sell;
+            document.getElementById('lbl_entry_add_qty').textContent = tr.entry_add_qty;
+            document.getElementById('lbl_btn_entry_confirm').textContent = tr.btn_entry_confirm;
+
+            document.getElementById('lbl_reports_title').innerHTML = `<span class="text-3xl">📊</span> ${tr.reports_title}`;
+            document.getElementById('lbl_reports_subtitle').textContent = tr.reports_sub;
+
+            document.getElementById('lbl_settings_title').innerHTML = `<span class="text-3xl">⚙️</span> ${tr.settings_title}`;
+            document.getElementById('lbl_set_dr').textContent = tr.set_dr;
+            document.getElementById('lbl_btn_set_save').textContent = tr.btn_set_save;
+
+            document.getElementById('lbl_modal_title').innerHTML = `<span class="text-3xl">💊</span> ${tr.modal_title}`;
+            document.getElementById('lbl_modal_name').textContent = tr.modal_name;
+            document.getElementById('lbl_modal_buy').textContent = tr.modal_buy;
+            document.getElementById('lbl_modal_sell').textContent = tr.modal_sell;
+            document.getElementById('lbl_modal_qty').textContent = tr.modal_qty;
+            document.getElementById('lbl_btn_modal_cancel').textContent = tr.btn_cancel;
+            document.getElementById('lbl_btn_modal_save').textContent = tr.btn_save;
+
+            document.getElementById('lbl_footer_dev').textContent = tr.developed_by;
+
+            // Adjust table text alignments for RTL
+            const tables = document.querySelectorAll('table');
+            tables.forEach(table => {
+                table.className = `w-full border-collapse ${lang === 'ar' ? 'text-right' : 'text-left'}`;
+            });
+
+            renderAll();
+        }
+
+        // RENDER DATA & STATS
+        function renderAll() {
+            const tr = t[currentLang];
+            const curr = settings.currency;
+
+            // 1. Calculate Statistics
+            const now = new Date();
+            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const weekStart = new Date(todayStart);
+            weekStart.setDate(weekStart.getDate() - now.getDay()); // Sunday/Monday start
+            const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+            let profitToday = 0, profitWeek = 0, profitMonth = 0;
+            sales.forEach(s => {
+                const sDate = new Date(s.date);
+                if (sDate >= todayStart) profitToday += s.profit;
+                if (sDate >= weekStart) profitWeek += s.profit;
+                if (sDate >= monthStart) profitMonth += s.profit;
+            });
+
+            document.getElementById('val_stat_today').textContent = `${profitToday.toLocaleString()} ${curr}`;
+            document.getElementById('val_stat_week').textContent = `${profitWeek.toLocaleString()} ${curr}`;
+            document.getElementById('val_stat_month').textContent = `${profitMonth.toLocaleString()} ${curr}`;
+
+            // 2. Populate POS Select & Recent Sales
+            const posSelect = document.getElementById('pos_select_med');
+            posSelect.innerHTML = `<option value="">-- ${tr.select_med} --</option>`;
+            medicines.filter(m => m.quantity > 0).forEach(m => {
+                posSelect.innerHTML += `<option value="${m.id}">${m.name} (${tr.modal_qty}: ${m.quantity} | ${tr.th_sell}: ${m.sell_price} ${curr})</option>`;
+            });
+
+            const tbodyRecent = document.getElementById('tbody_recent_sales');
+            tbodyRecent.innerHTML = '';
+            const recentSales = sales.filter(s => new Date(s.date) >= todayStart).reverse();
+            if (recentSales.length === 0) {
+                tbodyRecent.innerHTML = `<tr><td colspan="7" class="p-10 text-center text-gray-400 font-semibold text-lg">${tr.no_records}</td></tr>`;
+            } else {
+                recentSales.forEach(s => {
+                    const d = new Date(s.date);
+                    tbodyRecent.innerHTML += `
+                        <tr class="hover:bg-[#D4AF37]/10 transition duration-150 border-b border-gray-100">
+                            <td class="p-5 font-bold text-gray-900">${s.medicine_name}</td>
+                            <td class="p-5"><span class="px-3.5 py-1.5 bg-emerald-100 text-emerald-900 font-extrabold rounded-full text-xs shadow-sm">${s.quantity}</span></td>
+                            <td class="p-5 text-gray-600 font-medium">${s.sell_price} ${curr}</td>
+                            <td class="p-5 font-black text-gray-900 text-lg">${s.total_price} ${curr}</td>
+                            <td class="p-5 font-extrabold text-[#2C5530] text-lg">+${s.profit} ${curr}</td>
+                            <td class="p-5 text-gray-500 text-sm font-medium">${d.toLocaleDateString()} ${d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</td>
+                            <td class="p-5">
+                                <button onclick="deleteSale(${s.id})" title="${tr.btn_delete}" class="px-4 py-2 bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white font-bold rounded-xl text-xs shadow-sm hover:shadow-md transition flex items-center gap-1.5 cursor-pointer">
+                                    🗑️ ${tr.btn_delete}
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+
+            // 3. Populate Stock Table
+            filterStock();
+
+            // 4. Populate Stock Entry Select
+            const entrySelect = document.getElementById('entry_select_med');
+            entrySelect.innerHTML = `<option value="">-- ${currentLang === 'fr' ? 'Créer un nouveau médicament' : currentLang === 'ar' ? 'إضافة دواء جديد' : 'Add New Medicine'} --</option>`;
+            medicines.forEach(m => {
+                entrySelect.innerHTML += `<option value="${m.id}" data-buy="${m.buy_price}" data-sell="${m.sell_price}">${m.name} (${tr.modal_qty}: ${m.quantity})</option>`;
+            });
+
+            // 5. Populate Reports Accordion (Grouped by Date)
+            const reportsContainer = document.getElementById('reports_accordion_container');
+            reportsContainer.innerHTML = '';
+
+            const groups = {};
+            sales.forEach(s => {
+                const dateStr = s.date.split('T')[0];
+                if (!groups[dateStr]) groups[dateStr] = { qty: 0, total: 0, profit: 0, items: [] };
+                groups[dateStr].qty += s.quantity;
+                groups[dateStr].total += s.total_price;
+                groups[dateStr].profit += s.profit;
+                groups[dateStr].items.push(s);
+            });
+
+            const sortedDates = Object.keys(groups).sort().reverse();
+            if (sortedDates.length === 0) {
+                reportsContainer.innerHTML = `<div class="p-16 text-center text-gray-400 font-semibold text-lg">${tr.no_records}</div>`;
+            } else {
+                sortedDates.forEach(dStr => {
+                    const g = groups[dStr];
+                    let itemsHtml = '';
+                    g.items.forEach(item => {
+                        itemsHtml += `
+                            <tr class="border-b border-gray-100 hover:bg-[#D4AF37]/10 transition duration-150 text-base">
+                                <td class="p-5 font-bold text-gray-900">${item.medicine_name}</td>
+                                <td class="p-5"><span class="px-3.5 py-1.5 bg-emerald-100 text-emerald-900 font-extrabold rounded-full text-xs shadow-sm">${item.quantity}</span></td>
+                                <td class="p-5 text-gray-600 font-medium">${item.buy_price} ${curr}</td>
+                                <td class="p-5 text-gray-600 font-medium">${item.sell_price} ${curr}</td>
+                                <td class="p-5 font-black text-gray-900 text-lg">${item.total_price} ${curr}</td>
+                                <td class="p-5 font-black text-[#2C5530] text-lg">+${item.profit} ${curr}</td>
+                            </tr>
+                        `;
+                    });
+
+                    reportsContainer.innerHTML += `
+                        <div class="border border-gray-200 rounded-2xl overflow-hidden shadow-md bg-white transition duration-300 hover:shadow-xl">
+                            <div class="bg-[#FAF6F0] p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-200 font-bold text-base text-[#1A351D]">
+                                <div class="text-xl font-black flex items-center gap-2">📅 ${dStr}</div>
+                                <div class="flex flex-wrap gap-8 items-center text-sm">
+                                    <span>${tr.th_qty}: <span class="font-black text-gray-900 text-base">${g.qty}</span></span>
+                                    <span>${tr.th_total}: <span class="font-black text-gray-900 text-lg">${g.total} ${curr}</span></span>
+                                    <span class="bg-[#2C5530]/10 px-4 py-1.5 rounded-xl border border-[#2C5530]/20">${tr.th_profit}: <span class="font-black text-[#2C5530] text-xl">+${g.profit} ${curr}</span></span>
+                                </div>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse ${currentLang === 'ar' ? 'text-right' : 'text-left'}">
+                                    <thead>
+                                        <tr class="bg-gray-50 border-b border-gray-200 text-gray-500 text-xs font-extrabold uppercase tracking-wider">
+                                            <th class="p-4">${tr.th_med}</th>
+                                            <th class="p-4">${tr.th_qty}</th>
+                                            <th class="p-4">${tr.th_buy}</th>
+                                            <th class="p-4">${tr.th_sell}</th>
+                                            <th class="p-4">${tr.th_total}</th>
+                                            <th class="p-4">${tr.th_profit}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-100">
+                                        ${itemsHtml}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // 6. Populate Settings Form Values
+            document.getElementById('set_clinic_name').value = settings.clinic_name;
+            document.getElementById('set_doctor_name').value = settings.doctor_name;
+            document.getElementById('set_currency').value = settings.currency;
+            document.getElementById('set_lang').value = settings.default_lang;
+        }
+
+        // STOCK FILTERING
+        function filterStock() {
+            const query = (document.getElementById('stock_search').value || '').toLowerCase();
+            const tbodyStock = document.getElementById('tbody_stock');
+            tbodyStock.innerHTML = '';
+            const tr = t[currentLang];
+            const curr = settings.currency;
+
+            const filtered = medicines.filter(m => m.name.toLowerCase().includes(query));
+            if (filtered.length === 0) {
+                tbodyStock.innerHTML = `<tr><td colspan="6" class="p-10 text-center text-gray-400 font-semibold text-lg">${tr.no_records}</td></tr>`;
+            } else {
+                filtered.forEach(m => {
+                    let badgeClass = "bg-emerald-100 text-emerald-900 border border-emerald-300";
+                    if (m.quantity === 0) badgeClass = "bg-rose-100 text-rose-900 border border-rose-300";
+                    else if (m.quantity <= 10) badgeClass = "bg-[#D4AF37] text-green-950 border border-[#C59B27]";
+
+                    tbodyStock.innerHTML += `
+                        <tr class="hover:bg-[#D4AF37]/10 transition duration-150 border-b border-gray-100">
+                            <td class="p-5 font-bold text-gray-900">${m.name}</td>
+                            <td class="p-5 text-gray-600 font-medium">${m.category || 'Général'}</td>
+                            <td class="p-5 text-gray-600 font-medium">${m.buy_price} ${curr}</td>
+                            <td class="p-5 font-black text-gray-900 text-lg">${m.sell_price} ${curr}</td>
+                            <td class="p-5"><span class="px-4 py-1.5 font-extrabold rounded-full text-xs shadow-sm ${badgeClass}">${m.quantity}</span></td>
+                            <td class="p-5">
+                                <button onclick="openMedicineModal(${m.id})" class="px-4 py-2 bg-gradient-to-r from-[#2C5530] to-[#1A351D] hover:from-[#3D7342] hover:to-[#2C5530] text-white font-bold rounded-xl text-xs shadow-md hover:shadow-lg transition flex items-center gap-1.5 cursor-pointer">
+                                    ✏️ ${tr.btn_edit}
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+        }
+
+        // FORM SUBMISSIONS
+        function handleSaleSubmit(e) {
+            e.preventDefault();
+            const medId = parseInt(document.getElementById('pos_select_med').value);
+            const qty = parseInt(document.getElementById('pos_quantity').value);
+            const tr = t[currentLang];
+
+            const med = medicines.find(m => m.id === medId);
+            if (!med) return;
+
+            if (med.quantity < qty) {
+                showToast(tr.toast_no_stock, true);
+                return;
+            }
+
+            med.quantity -= qty;
+            const total = med.sell_price * qty;
+            const profit = (med.sell_price - med.buy_price) * qty;
+
+            sales.push({
+                id: Date.now(),
+                medicine_id: med.id,
+                medicine_name: med.name,
+                quantity: qty,
+                buy_price: med.buy_price,
+                sell_price: med.sell_price,
+                total_price: total,
+                profit: profit,
+                date: new Date().toISOString()
+            });
+
+            saveState();
+            renderAll();
+            document.getElementById('form_sale').reset();
+            document.getElementById('pos_quantity').value = 1;
+            showToast(tr.toast_sale_ok);
+        }
+
+        function handleStockEntrySubmit(e) {
+            e.preventDefault();
+            const medId = document.getElementById('entry_select_med').value;
+            const newName = document.getElementById('entry_new_name').value;
+            const buyPrice = parseFloat(document.getElementById('entry_buy_price').value);
+            const sellPrice = parseFloat(document.getElementById('entry_sell_price').value);
+            const addQty = parseInt(document.getElementById('entry_add_qty').value);
+            const tr = t[currentLang];
+
+            if (medId) {
+                const med = medicines.find(m => m.id === parseInt(medId));
+                if (med) {
+                    med.quantity += addQty;
+                    med.buy_price = buyPrice;
+                    med.sell_price = sellPrice;
+                }
+            } else if (newName) {
+                const existing = medicines.find(m => m.name.toLowerCase() === newName.toLowerCase());
+                if (existing) {
+                    existing.quantity += addQty;
+                    existing.buy_price = buyPrice;
+                    existing.sell_price = sellPrice;
+                } else {
+                    medicines.push({
+                        id: Date.now(),
+                        name: newName,
+                        category: "Général",
+                        buy_price: buyPrice,
+                        sell_price: sellPrice,
+                        quantity: addQty
+                    });
+                }
+            } else {
+                return;
+            }
+
+            saveState();
+            renderAll();
+            document.getElementById('form_stock_entry').reset();
+            document.getElementById('entry_new_name').disabled = false;
+            document.getElementById('entry_add_qty').value = 10;
+            showToast(tr.toast_entry_ok);
+        }
+
+        function onEntryMedChange(select) {
+            const newNameInput = document.getElementById('entry_new_name');
+            const buyInput = document.getElementById('entry_buy_price');
+            const sellInput = document.getElementById('entry_sell_price');
+
+            if (select.value !== "") {
+                const option = select.options[select.selectedIndex];
+                buyInput.value = option.getAttribute('data-buy');
+                sellInput.value = option.getAttribute('data-sell');
+                newNameInput.value = '';
+                newNameInput.disabled = true;
+            } else {
+                buyInput.value = '';
+                sellInput.value = '';
+                newNameInput.disabled = false;
+            }
+        }
+
+        function handleSettingsSubmit(e) {
+            e.preventDefault();
+            settings.clinic_name = document.getElementById('set_clinic_name').value;
+            settings.doctor_name = document.getElementById('set_doctor_name').value;
+            settings.currency = document.getElementById('set_currency').value;
+            settings.default_lang = document.getElementById('set_lang').value;
+
+            saveState();
+            setLanguage(settings.default_lang);
+            showToast(t[currentLang].toast_set_ok);
+        }
+
+        // DELETE / CANCEL A SALE (error or customer return) — returns quantity to stock
+        function deleteSale(saleId) {
+            const tr = t[currentLang];
+            if (!confirm(tr.confirm_delete_sale)) return;
+
+            const idx = sales.findIndex(s => s.id === saleId);
+            if (idx === -1) return;
+
+            const sale = sales[idx];
+            // Return the sold quantity back to the matching medicine stock
+            const med = medicines.find(m => m.id === sale.medicine_id);
+            if (med) {
+                med.quantity += sale.quantity;
+            }
+
+            // Remove the sale record
+            sales.splice(idx, 1);
+
+            saveState();
+            renderAll();
+            showToast(tr.toast_sale_deleted);
+        }
+
+        // MANUAL RESET — clears today's sales and returns their quantities to stock
+        function resetDailySales() {
+            const tr = t[currentLang];
+            if (!confirm(tr.confirm_reset_daily)) return;
+
+            const now = new Date();
+            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+            // Identify today's sales, return their quantities to stock, then remove them
+            const remaining = [];
+            sales.forEach(s => {
+                if (new Date(s.date) >= todayStart) {
+                    const med = medicines.find(m => m.id === s.medicine_id);
+                    if (med) med.quantity += s.quantity;
+                } else {
+                    remaining.push(s);
+                }
+            });
+            sales = remaining;
+
+            saveState();
+            renderAll();
+            showToast(tr.toast_daily_reset);
+        }
+
+        // MODAL MANAGEMENT
+        function openMedicineModal(medId = null) {
+            const modal = document.getElementById('modal_medicine');
+            const form = document.getElementById('form_medicine_modal');
+            form.reset();
+
+            if (medId) {
+                const med = medicines.find(m => m.id === medId);
+                if (med) {
+                    document.getElementById('modal_med_id').value = med.id;
+                    document.getElementById('modal_med_name').value = med.name;
+                    document.getElementById('modal_med_cat').value = med.category || 'Général';
+                    document.getElementById('modal_med_buy').value = med.buy_price;
+                    document.getElementById('modal_med_sell').value = med.sell_price;
+                    document.getElementById('modal_med_qty').value = med.quantity;
+                }
+            } else {
+                document.getElementById('modal_med_id').value = '';
+                document.getElementById('modal_med_cat').value = 'Général';
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeMedicineModal() {
+            const modal = document.getElementById('modal_medicine');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function handleMedicineModalSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('modal_med_id').value;
+            const name = document.getElementById('modal_med_name').value;
+            const cat = document.getElementById('modal_med_cat').value;
+            const buy = parseFloat(document.getElementById('modal_med_buy').value);
+            const sell = parseFloat(document.getElementById('modal_med_sell').value);
+            const qty = parseInt(document.getElementById('modal_med_qty').value);
+            const tr = t[currentLang];
+
+            if (id) {
+                const med = medicines.find(m => m.id === parseInt(id));
+                if (med) {
+                    med.name = name;
+                    med.category = cat;
+                    med.buy_price = buy;
+                    med.sell_price = sell;
+                    med.quantity = qty;
+                }
+            } else {
+                medicines.push({
+                    id: Date.now(),
+                    name: name,
+                    category: cat,
+                    buy_price: buy,
+                    sell_price: sell,
+                    quantity: qty
+                });
+            }
+
+            saveState();
+            renderAll();
+            closeMedicineModal();
+            showToast(tr.toast_med_ok);
+        }
+
+        // AUTO-RESET DAILY PROFITS AT MIDNIGHT (Algeria local time)
+        // Tracks the current day; when the calendar day changes (00:00),
+        // it automatically refreshes the statistics so daily profit resets to 0.
+        let lastKnownDay = new Date().toDateString();
+
+        function checkDayRollover() {
+            const currentDay = new Date().toDateString();
+            if (currentDay !== lastKnownDay) {
+                lastKnownDay = currentDay;
+                // A new day has started — refresh stats & recent sales instantly
+                renderAll();
+                showToast(
+                    currentLang === 'fr' ? 'Nouveau jour : bénéfices quotidiens réinitialisés à 0.' :
+                    currentLang === 'ar' ? 'يوم جديد: تمت إعادة ضبط الأرباح اليومية إلى الصفر.' :
+                    'New day: daily profits reset to 0.'
+                );
+            }
+        }
+
+        // Check every 30 seconds for an instant, automatic midnight reset
+        setInterval(checkDayRollover, 30000);
+
+        // INITIALIZE ON LOAD
+        window.onload = () => {
+            setLanguage(currentLang);
+            switchTab('pos');
+            lastKnownDay = new Date().toDateString();
+        };
+    </script>
+</body>
+</html>

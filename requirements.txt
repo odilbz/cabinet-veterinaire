@@ -1,0 +1,6 @@
+Flask==3.0.3
+Flask-SQLAlchemy==3.1.1
+PyQt5==5.15.10
+PyQtWebEngine==5.15.6
+pyinstaller
+Pillow

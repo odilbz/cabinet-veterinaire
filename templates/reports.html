@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Statistics Cards (exclusive to Reports page) -->
+<section class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>{{ t.net_profit_today }}</h3>
+            <div class="stat-value">{{ profit_today }}</div>
+        </div>
+        <div class="stat-icon">💰</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>{{ t.net_profit_week }}</h3>
+            <div class="stat-value">{{ profit_week }}</div>
+        </div>
+        <div class="stat-icon">📈</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>{{ t.net_profit_month }}</h3>
+            <div class="stat-value">{{ profit_month }}</div>
+        </div>
+        <div class="stat-icon">🏆</div>
+    </div>
+</section>
+<!-- Reports -->
+<section class="card">
+    <div class="card-header">
+        <h2 class="card-title"><span>📊</span> {{ t.reports }}</h2>
+        <span class="card-subtitle">{{ t.reports_subtitle }}</span>
+    </div>
+    <div class="reports-container">
+        {% for date_str, summary in reports.items() %}
+            <div class="report-group">
+                <div class="report-header">
+                    <div class="report-date">📅 {{ date_str }}</div>
+                    <div class="report-summary">
+                        <div>{{ t.quantity }}: <strong class="summary-val">{{ summary.qty }}</strong></div>
+                        <div>{{ t.total }}: <strong class="summary-val">{{ summary.total }} {{ t.currency }}</strong></div>
+                        <div>{{ t.profit }}: <strong class="summary-profit">+{{ summary.profit }} {{ t.currency }}</strong></div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" style="margin:0;">
+                        <thead>
+                            <tr>
+                                <th>{{ t.medicine_name }}</th>
+                                <th>{{ t.quantity }}</th>
+                                <th>{{ t.buy_price }}</th>
+                                <th>{{ t.sell_price }}</th>
+                                <th>{{ t.total }}</th>
+                                <th>{{ t.profit }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sale in summary.sales %}
+                            <tr>
+                                <td><strong>{{ sale.medicine_name }}</strong></td>
+                                <td><span class="badge badge-success">{{ sale.quantity }}</span></td>
+                                <td>{{ sale.buy_price }} {{ t.currency }}</td>
+                                <td>{{ sale.sell_price }} {{ t.currency }}</td>
+                                <td><strong>{{ sale.total_price }} {{ t.currency }}</strong></td>
+                                <td class="text-profit">+{{ sale.profit }} {{ t.currency }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="no-records">{{ t.no_records }}</div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

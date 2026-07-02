@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card" style="max-width:700px;margin:0 auto;">
+    <div class="card-header">
+        <h2 class="card-title"><span>⚙️</span> {{ t.settings_title }}</h2>
+    </div>
+    <form method="POST" action="{{ url_for('settings') }}">
+        <div class="form-group" style="margin-bottom:20px;">
+            <label for="clinic_name">Nom du Cabinet / اسم العيادة</label>
+            <input type="text" name="clinic_name" id="clinic_name" class="form-control" value="{{ setting.clinic_name if setting else 'Cabinet Vétérinaire Dr. Boulemaiz Azzeddine' }}" required>
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+            <label for="doctor_name">{{ t.doctor_name }}</label>
+            <input type="text" name="doctor_name" id="doctor_name" class="form-control" value="{{ setting.doctor_name if setting else 'Dr. Boulemaiz Azzeddine' }}" required>
+        </div>
+        <div class="form-grid" style="margin-bottom:30px;grid-template-columns:1fr 1fr;">
+            <div class="form-group">
+                <label for="currency">Monnaie / العملة</label>
+                <input type="text" name="currency" id="currency" class="form-control" value="{{ setting.currency if setting else 'DZD' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="default_lang">Langue par défaut / اللغة الافتراضية</label>
+                <select name="default_lang" id="default_lang" class="form-control">
+                    <option value="fr" {% if setting and setting.default_lang == 'fr' %}selected{% endif %}>Français (FR)</option>
+                    <option value="ar" {% if setting and setting.default_lang == 'ar' %}selected{% endif %}>العربية (AR)</option>
+                    <option value="en" {% if setting and setting.default_lang == 'en' %}selected{% endif %}>English (EN)</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;height:50px;font-size:1.1rem;"><span>💾</span> {{ t.save }}</button>
+    </form>
+</section>
+<!-- Data Backup & Restore Section -->
+<section class="card" style="max-width:700px;margin:30px auto 0 auto;border: 2px dashed var(--secondary-color);">
+    <div class="card-header">
+        <h2 class="card-title"><span>🛡️</span> {{ t.backup_title }}</h2>
+    </div>
+    <p style="color:var(--text-muted);margin-bottom:25px;text-align:center;">{{ t.backup_subtitle }}</p>
+    <div style="display:flex;flex-direction:column;gap:18px;">
+        <a href="{{ url_for('backup') }}" class="btn btn-secondary" style="width:100%;height:50px;font-size:1.05rem;">
+            {{ t.btn_backup }}
+        </a>
+        <form method="POST" action="{{ url_for('restore') }}" enctype="multipart/form-data" onsubmit="return confirm('{{ t.confirm_restore }}')">
+            <label for="backup_file" class="btn btn-neutral" style="width:100%;height:50px;font-size:1.05rem;cursor:pointer;">
+                {{ t.btn_restore }}
+            </label>
+            <input type="file" id="backup_file" name="backup_file" accept=".db" style="display:none;" onchange="this.form.submit()">
+        </form>
+    </div>
+</section>
+<!-- Reset Sales & Profits Statistics Section -->
+<section class="card" style="max-width:700px;margin:30px auto 0 auto;border: 2px dashed var(--danger-color);">
+    <div class="card-header">
+        <h2 class="card-title" style="color:var(--danger-color);"><span>🗑️</span> {{ t.clear_sales_title }}</h2>
+    </div>
+    <p style="color:var(--text-muted);margin-bottom:25px;text-align:center;">{{ t.clear_sales_sub }}</p>
+    <form method="POST" action="{{ url_for('clear_sales') }}" onsubmit="return confirm('{{ t.confirm_clear_sales }}')">
+        <button type="submit" class="btn btn-danger" style="width:100%;height:50px;font-size:1.05rem;font-weight:bold;">
+            {{ t.btn_clear_sales }}
+        </button>
+    </form>
+</section>
+{% endblock %}

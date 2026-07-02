@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}" dir="{{ 'rtl' if is_rtl else 'ltr' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ clinic_name }}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body dir="{{ 'rtl' if is_rtl else 'ltr' }}">
+    <header class="main-header">
+        <div class="header-container">
+            <div class="clinic-branding">
+                <div class="logo-icon">🐾</div>
+                <div class="clinic-title-group">
+                    <div class="clinic-title">{{ clinic_name }}</div>
+                    <div class="doctor-name">{{ doctor_name }}</div>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">{{ t.home }}</a>
+                <a href="{{ url_for('stock') }}" class="nav-link {% if request.endpoint == 'stock' %}active{% endif %}">{{ t.stock }}</a>
+                <a href="{{ url_for('stock_entry') }}" class="nav-link {% if request.endpoint == 'stock_entry' %}active{% endif %}">{{ t.stock_entry }}</a>
+                <a href="{{ url_for('categories') }}" class="nav-link {% if request.endpoint == 'categories' %}active{% endif %}">🗂️ Catégories</a>
+                <a href="{{ url_for('reports') }}" class="nav-link {% if request.endpoint == 'reports' %}active{% endif %}">{{ t.reports }}</a>
+                <a href="{{ url_for('settings') }}" class="nav-link {% if request.endpoint == 'settings' %}active{% endif %}">{{ t.settings }}</a>
+                <div class="lang-switcher">
+                    <a href="{{ url_for('set_lang', lang='fr') }}" class="lang-btn {% if lang == 'fr' %}active{% endif %}">FR</a>
+                    <a href="{{ url_for('set_lang', lang='ar') }}" class="lang-btn {% if lang == 'ar' %}active{% endif %}">AR</a>
+                    <a href="{{ url_for('set_lang', lang='en') }}" class="lang-btn {% if lang == 'en' %}active{% endif %}">EN</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        <span>{{ message }}</span>
+                        <button class="alert-close" style="background:none;border:none;cursor:pointer;font-size:1.4rem;color:inherit;">&times;</button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div>&copy; 2026 {{ clinic_name }}. Tous droits réservés.</div>
+            <div class="footer-dev">{{ t.developed_by }}</div>
+        </div>
+    </footer>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

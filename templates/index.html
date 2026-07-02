@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Caisse Section -->
+<section class="card">
+    <div class="card-header">
+        <h2 class="card-title"><span>🛒</span> {{ t.caisse }}</h2>
+    </div>
+    <form method="POST" action="{{ url_for('index') }}">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="medicine_id">{{ t.select_medicine }}</label>
+                <select name="medicine_id" id="medicine_id" class="form-control" required>
+                    <option value="">-- {{ t.select_medicine }} --</option>
+                    {% for med in medicines %}
+                        <option value="{{ med.id }}">{{ med.name }} ({{ t.current_qty }}: {{ med.quantity }} | {{ t.sell_price }}: {{ med.sell_price }} {{ t.currency }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantity">{{ t.quantity }}</label>
+                <input type="number" name="quantity" id="quantity" class="form-control" min="1" value="1" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="height: 48px;"><span>🧾</span> {{ t.submit_sale }}</button>
+            </div>
+        </div>
+    </form>
+</section>
+<!-- Last Sale Receipt (appears after a sale) -->
+{% if last_sale %}
+<section class="card receipt-banner">
+    <div class="card-header" style="border-bottom: 1px dashed var(--border-color);">
+        <h2 class="card-title"><span>🧾</span> {{ t.receipt_title }} #{{ last_sale.id }}</h2>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <button onclick="printReceipt()" class="btn btn-primary btn-sm"><span>🖨️</span> {{ t.btn_print_receipt }}</button>
+            <a href="{{ url_for('index') }}" class="btn btn-neutral btn-sm"><span>✖</span> {{ t.btn_close }}</a>
+        </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:30px;align-items:center;">
+        <div style="flex:1;min-width:250px;">
+            <div style="margin-bottom:8px;font-size:1.05rem;"><strong>{{ t.medicine_name }}:</strong> {{ last_sale.medicine_name }}</div>
+            <div style="margin-bottom:8px;font-size:1.05rem;"><strong>{{ t.quantity }}:</strong> {{ last_sale.quantity }}</div>
+            <div style="font-size:1.05rem;"><strong>{{ t.unit_price }}:</strong> {{ last_sale.sell_price }} {{ t.currency }}</div>
+        </div>
+        <div style="text-align:center;background:rgba(44,85,48,0.08);padding:20px 35px;border-radius:12px;">
+            <div style="color:var(--text-muted);font-size:0.9rem;font-weight:600;">{{ t.total }}</div>
+            <div style="font-size:2.2rem;font-weight:800;color:var(--primary-color);">{{ last_sale.total_price }} {{ t.currency }}</div>
+            <div style="color:var(--text-muted);font-size:0.85rem;margin-top:6px;">{{ last_sale.date.strftime('%Y-%m-%d %H:%M') }}</div>
+        </div>
+    </div>
+</section>
+<!-- Hidden printable receipt -->
+<div id="printable_receipt" style="display:none;">
+    <div style="text-align:center;font-family:'Segoe UI',sans-serif;padding:20px;max-width:320px;margin:0 auto;">
+        <div style="font-size:1.4rem;font-weight:800;color:#2C5530;">{{ clinic_name }}</div>
+        <div style="color:#C0392B;font-weight:700;margin:4px 0;">{{ doctor_name }}</div>
+        <div style="font-size:0.95rem;color:#555;font-weight:700;margin:2px 0;">Tél: 0772632921</div>
+        <div style="border-top:2px dashed #2C5530;margin:12px 0;"></div>
+        <div style="text-align:left;font-size:0.95rem;line-height:1.9;">
+            <div style="display:flex;justify-content:space-between;"><span>{{ t.date }}:</span><span>{{ last_sale.date.strftime('%Y-%m-%d %H:%M') }}</span></div>
+            <div style="display:flex;justify-content:space-between;"><span>{{ t.medicine_name }}:</span><span style="text-align:right;max-width:160px;">{{ last_sale.medicine_name }}</span></div>
+            <div style="display:flex;justify-content:space-between;"><span>{{ t.quantity }}:</span><span>{{ last_sale.quantity }}</span></div>
+            <div style="display:flex;justify-content:space-between;"><span>{{ t.unit_price }}:</span><span>{{ last_sale.sell_price }} {{ t.currency }}</span></div>
+        </div>
+        <div style="border-top:2px dashed #2C5530;margin-top:12px;padding-top:10px;display:flex;justify-content:space-between;font-size:1.3rem;font-weight:800;color:#2C5530;">
+            <span>{{ t.total }}:</span><span>{{ last_sale.total_price }} {{ t.currency }}</span>
+        </div>
+        <div style="margin-top:25px;font-size:0.95rem;color:#2C5530;font-weight:600;">{{ t.receipt_thanks }}</div>
+    </div>
+</div>
+{% endif %}
+<!-- Recent Sales Table -->
+<section class="card">
+    <div class="card-header">
+        <h2 class="card-title"><span>📋</span> {{ t.recent_sales }}</h2>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{{ t.medicine_name }}</th>
+                    <th>{{ t.quantity }}</th>
+                    <th>{{ t.unit_price }}</th>
+                    <th>{{ t.total }}</th>
+                    <th>{{ t.profit }}</th>
+                    <th>{{ t.date }}</th>
+                    <th>{{ t.actions }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in recent_sales %}
+                <tr>
+                    <td><strong>{{ sale.medicine_name }}</strong></td>
+                    <td><span class="badge badge-success">{{ sale.quantity }}</span></td>
+                    <td>{{ sale.sell_price }} {{ t.currency }}</td>
+                    <td><strong>{{ sale.total_price }} {{ t.currency }}</strong></td>
+                    <td class="text-profit">+{{ sale.profit }} {{ t.currency }}</td>
+                    <td>{{ sale.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('delete_sale', sale_id=sale.id) }}" style="display:inline;" onsubmit="return confirm('{{ t.confirm_delete_sale }}')">
+                            <button type="submit" class="btn btn-danger btn-sm">🗑️ {{ t.btn_delete }}</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="7" style="text-align:center;color:var(--text-muted);">{{ t.no_records }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% block scripts %}
+<script>
+    function printReceipt() {
+        const receiptContent = document.getElementById('printable_receipt').innerHTML;
+        const docDir = "{{ 'rtl' if is_rtl else 'ltr' }}";
+        const docTitle = "{{ t.receipt_title }} #{{ last_sale.id }}";
+        const win = window.open('', '', 'width=400,height=600');
+        win.document.write('<html><head><title>' + docTitle + '</title>');
+        win.document.write('<style>body{margin:0;padding:15px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}@media print{@page{margin:10mm;}}</style>');
+        win.document.write('</head><body dir="' + docDir + '">' + receiptContent + '</body></html>');
+        win.document.close();
+        win.focus();
+        setTimeout(function () { win.print(); }, 300);
+    }
+</script>
+{% endblock %}
+{% endblock %}
